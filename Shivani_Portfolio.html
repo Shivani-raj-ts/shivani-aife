@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivani T S — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15111e;
+    --surface:#1d1830;
+    --surface-2:#241c3a;
+    --violet:#9b6ff0;
+    --violet-soft:#3a2f5c;
+    --gold:#f2b84b;
+    --text:#f2eefb;
+    --text-mute:#a99cc7;
+    --line: rgba(155,111,240,0.25);
+    --serif: 'Fraunces', serif;
+    --sans: 'Manrope', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--violet); color:var(--ink); }
+
+  /* ---------- Nav dots ---------- */
+  .navdots{
+    position:fixed; right:28px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:18px; z-index:50;
+  }
+  .navdots a{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--violet-soft);
+    border:1px solid var(--line);
+    display:block; position:relative;
+    transition: background .3s, transform .3s;
+  }
+  .navdots a.active{ background:var(--gold); transform:scale(1.4); }
+  .navdots a span{
+    position:absolute; right:20px; top:50%; transform:translateY(-50%);
+    font-family:var(--mono); font-size:11px; color:var(--text-mute);
+    white-space:nowrap; opacity:0; transition:opacity .25s;
+  }
+  .navdots a:hover span{ opacity:1; }
+  @media (max-width:720px){ .navdots{ display:none; } }
+
+  section{ padding:110px 8vw; max-width:980px; margin:0 auto; position:relative; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.14em;
+    color:var(--gold); text-transform:uppercase; margin-bottom:14px;
+    display:block;
+  }
+  h2.title{
+    font-family:var(--serif); font-weight:600; font-size:clamp(28px,4vw,42px);
+    margin-bottom:34px; color:var(--text);
+  }
+
+  /* ---------- Waveform divider (signature element) ---------- */
+  .wave{
+    display:flex; align-items:flex-end; gap:4px; height:46px;
+    justify-content:center; margin:0 auto; width:100%; max-width:340px;
+  }
+  .wave .bar{
+    width:4px; background:linear-gradient(180deg, var(--gold), var(--violet));
+    border-radius:2px;
+    animation: bounce 1.4s ease-in-out infinite;
+  }
+  @keyframes bounce{
+    0%,100%{ height:8px; }
+    50%{ height:var(--h,32px); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    align-items:flex-start; padding-top:60px;
+  }
+  .hero .kicker{
+    font-family:var(--mono); font-size:13px; color:var(--text-mute);
+    letter-spacing:.08em; margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--serif); font-weight:700; font-size:clamp(52px,9vw,108px);
+    line-height:0.95; color:var(--text);
+  }
+  .hero h1 em{ font-style:italic; color:var(--violet); font-weight:500; }
+  .hero .tagline{
+    font-family:var(--serif); font-style:italic; font-weight:400;
+    font-size:clamp(18px,2.4vw,26px); color:var(--gold); margin-top:22px;
+  }
+  .hero .meta{
+    margin-top:28px; color:var(--text-mute); font-size:15px;
+  }
+  .hero .scrollcue{
+    margin-top:70px; font-family:var(--mono); font-size:12px; color:var(--text-mute);
+    display:flex; align-items:center; gap:10px;
+  }
+  .scrollcue .line{ width:36px; height:1px; background:var(--text-mute); animation:pulseline 1.8s ease-in-out infinite; }
+  @keyframes pulseline{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Profile ---------- */
+  .bio{ font-size:17px; color:var(--text-mute); max-width:640px; }
+  .bio strong{ color:var(--text); font-weight:600; }
+
+  /* ---------- Education: music-staff timeline ---------- */
+  .staff{ position:relative; padding-left:6px; }
+  .staff-line{
+    position:relative; padding:26px 0 26px 40px; border-left:1px solid var(--line);
+  }
+  .staff-line:last-child{ border-left:1px solid transparent; }
+  .staff-line::before{
+    content:''; position:absolute; left:-6px; top:30px;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 4px rgba(242,184,75,0.15);
+  }
+  .staff-line .degree{ font-family:var(--serif); font-size:19px; font-weight:600; color:var(--text); }
+  .staff-line .inst{ color:var(--violet); font-size:14px; margin-top:2px; }
+  .staff-line .dur{ font-family:var(--mono); font-size:12px; color:var(--text-mute); margin-top:6px; display:inline-block; }
+
+  /* ---------- Skills: terminal ---------- */
+  .terminal{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    overflow:hidden; max-width:640px;
+  }
+  .terminal-bar{
+    display:flex; gap:7px; padding:12px 16px; background:var(--surface-2);
+    border-bottom:1px solid var(--line);
+  }
+  .terminal-bar span{ width:10px; height:10px; border-radius:50%; background:var(--violet-soft); }
+  .terminal-body{ padding:22px 24px; font-family:var(--mono); font-size:14px; color:var(--gold); }
+  .terminal-body .comment{ color:var(--text-mute); }
+  .terminal-body .out{ color:var(--text); }
+  .cursor{ display:inline-block; width:8px; height:16px; background:var(--gold); vertical-align:middle; animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .chiprow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  .chip{
+    font-family:var(--mono); font-size:13px; padding:7px 14px; border-radius:20px;
+    border:1px solid var(--line); color:var(--text-mute);
+    transition: border-color .25s, color .25s, transform .2s;
+  }
+  .chip:hover{ border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+
+  /* ---------- Strengths grid ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  @media (max-width:640px){ .grid{ grid-template-columns:1fr; } }
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:22px 24px; transition:border-color .3s, transform .3s;
+  }
+  .card:hover{ border-color:var(--violet); transform:translateY(-3px); }
+  .card h3{ font-family:var(--serif); font-size:17px; font-weight:600; margin-bottom:8px; color:var(--text); }
+  .card p{ font-size:14px; color:var(--text-mute); }
+
+  /* ---------- Hobbies feature cards ---------- */
+  .feature-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:640px){ .feature-grid{ grid-template-columns:1fr; } }
+  .feature{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:30px 26px; position:relative; overflow:hidden; min-height:220px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .feature h3{ font-family:var(--serif); font-size:22px; font-weight:600; }
+  .feature p{ color:var(--text-mute); font-size:14px; margin-top:8px; max-width:260px; }
+
+  /* dance figure */
+  .dance-icon{ align-self:flex-end; width:56px; height:56px; position:relative; }
+  .dance-icon svg{ width:100%; height:100%; }
+  .dance-icon path, .dance-icon circle{ stroke:var(--violet); }
+  .feature.dance:hover .dance-icon{ animation:sway 0.9s ease-in-out infinite; }
+  @keyframes sway{ 0%,100%{ transform:rotate(-8deg); } 50%{ transform:rotate(8deg); } }
+
+  /* music equalizer */
+  .eq{ align-self:flex-end; display:flex; align-items:flex-end; gap:4px; height:48px; }
+  .eq .b{ width:6px; background:var(--gold); border-radius:2px; height:10px; transition:height .18s ease; }
+
+  /* ---------- Declaration / footer ---------- */
+  footer{ padding:80px 8vw 100px; text-align:center; }
+  footer .sign{ font-family:var(--serif); font-style:italic; font-size:22px; color:var(--text); margin-top:8px; }
+  footer .fine{ font-size:13px; color:var(--text-mute); max-width:480px; margin:18px auto 0; }
+  footer .contact{ font-family:var(--mono); font-size:13px; color:var(--text-mute); margin-top:26px; }
+</style>
+</head>
+<body>
+
+<nav class="navdots">
+  <a href="#hero" class="active"><span>intro</span></a>
+  <a href="#profile"><span>profile</span></a>
+  <a href="#education"><span>education</span></a>
+  <a href="#skills"><span>skills</span></a>
+  <a href="#strengths"><span>strengths</span></a>
+  <a href="#hobbies"><span>hobbies</span></a>
+  <a href="#contact"><span>contact</span></a>
+</nav>
+
+<section id="hero" class="hero">
+  <div class="kicker">portfolio / 2026</div>
+  <h1>Shivani<br><em>T S</em></h1>
+  <div class="tagline">Where code compiles and rhythm moves.</div>
+  <div class="meta">1st Year, ISE &nbsp;·&nbsp; REVA University &nbsp;·&nbsp; Bengaluru</div>
+  <div class="scrollcue"><span class="line"></span> scroll</div>
+</section>
+
+<section id="profile" class="reveal">
+  <span class="eyebrow">Profile</span>
+  <h2 class="title">A little about me</h2>
+  <p class="bio">
+    I'm an <strong>Information Science &amp; Engineering</strong> student building a foundation in
+    <strong>C</strong> and <strong>Python</strong>, one line of logic at a time. Off screen, I keep the
+    same discipline on the dance floor and around music — both taught me timing, patience, and how to
+    show up for practice even on the days it isn't easy. I'm looking for projects, teams, and stages
+    that let me bring both halves of that to the table.
+  </p>
+</section>
+
+<div class="wave reveal" aria-hidden="true"></div>
+
+<section id="education" class="reveal">
+  <span class="eyebrow">Education</span>
+  <h2 class="title">Where it started</h2>
+  <div class="staff">
+    <div class="staff-line">
+      <div class="degree">B.Tech, Information Science &amp; Engineering</div>
+      <div class="inst">REVA University</div>
+      <div class="dur">1st year · 2nd semester — ongoing</div>
+    </div>
+    <div class="staff-line">
+      <div class="degree">Pre-University Course</div>
+      <div class="inst">Sree Gurukul PU College</div>
+      <div class="dur">completed</div>
+    </div>
+    <div class="staff-line">
+      <div class="degree">Schooling</div>
+      <div class="inst">Sree Gurukul School</div>
+      <div class="dur">completed</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <span class="eyebrow">Skills</span>
+  <h2 class="title">What I'm building with</h2>
+  <div class="terminal">
+    <div class="terminal-bar"><span></span><span></span><span></span></div>
+    <div class="terminal-body">
+      <div class="comment">&gt; whoami --skills</div>
+      <div class="out" id="typeline">&nbsp;</div>
+    </div>
+  </div>
+  <div class="chiprow">
+    <span class="chip">C</span>
+    <span class="chip">Python</span>
+    <span class="chip">Logic building</span>
+    <span class="chip">Data structures basics</span>
+    <span class="chip">Problem solving</span>
+  </div>
+</section>
+
+<section id="strengths" class="reveal">
+  <span class="eyebrow">Core strengths</span>
+  <h2 class="title">What I bring to a team</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Fast learner</h3>
+      <p>Picks up new logic and syntax quickly, and isn't afraid to sit with a hard problem until it clicks.</p>
+    </div>
+    <div class="card">
+      <h3>Discipline</h3>
+      <p>Years of dance rehearsal built a habit of consistent, unglamorous practice — the same habit that debugging rewards.</p>
+    </div>
+    <div class="card">
+      <h3>Collaboration</h3>
+      <p>Group performances taught coordination and reading the room — useful on stage and in a stand-up.</p>
+    </div>
+    <div class="card">
+      <h3>Attention to detail</h3>
+      <p>Choreography and code both fall apart on one missed step. I notice the small things.</p>
+    </div>
+  </div>
+</section>
+
+<section id="hobbies" class="reveal">
+  <span class="eyebrow">Beyond the syllabus</span>
+  <h2 class="title">Dance &amp; music</h2>
+  <div class="feature-grid">
+    <div class="feature dance">
+      <div>
+        <h3>Dance</h3>
+        <p>Trained performer — choreography, stage shows, and the discipline of getting a routine right.</p>
+      </div>
+      <div class="dance-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke-width="2.4" stroke-linecap="round">
+          <circle cx="32" cy="12" r="6"/>
+          <path d="M32 18 L32 34"/>
+          <path d="M32 22 L18 14"/>
+          <path d="M32 22 L48 30"/>
+          <path d="M32 34 L20 52"/>
+          <path d="M32 34 L44 50"/>
+        </svg>
+      </div>
+    </div>
+    <div class="feature music">
+      <div>
+        <h3>Music</h3>
+        <p>Passionate listener and practitioner, always exploring genres and picking apart what makes a track work.</p>
+      </div>
+      <div class="eq" id="eq">
+        <div class="b"></div><div class="b"></div><div class="b"></div>
+        <div class="b"></div><div class="b"></div><div class="b"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact" class="reveal">
+  <div class="wave" aria-hidden="true" style="margin-bottom:36px;"></div>
+  <span class="eyebrow">Get in touch</span>
+  <div class="contact">[email address] &nbsp;·&nbsp; [phone number] &nbsp;·&nbsp; Bengaluru, India</div>
+  <div class="sign">Shivani T S</div>
+  <p class="fine">1st year ISE student at REVA University — open to projects, clubs, and collaborations.</p>
+</footer>
+
+<script>
+  // waveform bars — randomized heights + stagger
+  document.querySelectorAll('.wave').forEach(function(wave){
+    for(var i=0;i<26;i++){
+      var bar=document.createElement('div');
+      bar.className='bar';
+      var h=10+Math.random()*30;
+      bar.style.setProperty('--h', h.toFixed(0)+'px');
+      bar.style.animationDelay=(Math.random()*1.2).toFixed(2)+'s';
+      bar.style.animationDuration=(1+Math.random()*0.8).toFixed(2)+'s';
+      wave.appendChild(bar);
+    }
+  });
+
+  // equalizer bars in music card
+  var eqBars=document.querySelectorAll('#eq .b');
+  function randomizeEq(){
+    eqBars.forEach(function(b){ b.style.height=(6+Math.random()*40)+'px'; });
+  }
+  setInterval(randomizeEq, 260);
+
+  // nav dot active state on scroll
+  var sections=document.querySelectorAll('section, footer');
+  var dots=document.querySelectorAll('.navdots a');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id=entry.target.getAttribute('id');
+        dots.forEach(function(d){ d.classList.toggle('active', d.getAttribute('href')==='#'+id); });
+      }
+    });
+  }, { threshold:0.5 });
+  sections.forEach(function(s){ io.observe(s); });
+
+  // reveal on scroll
+  var revealEls=document.querySelectorAll('.reveal');
+  var rio=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('in'); }
+    });
+  }, { threshold:0.15 });
+  revealEls.forEach(function(el){ rio.observe(el); });
+
+  // typing effect for terminal
+  var typeline=document.getElementById('typeline');
+  var full="C, Python — learning, building, debugging.";
+  var i=0;
+  function type(){
+    if(i<=full.length){
+      typeline.innerHTML=full.slice(0,i)+'<span class="cursor"></span>';
+      i++;
+      setTimeout(type, 55);
+    } else {
+      typeline.innerHTML=full+'<span class="cursor"></span>';
+    }
+  }
+  setTimeout(type, 500);
+</script>
+
+</body>
+</html>
